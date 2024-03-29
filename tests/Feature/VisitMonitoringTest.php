@@ -83,7 +83,7 @@ test('visit monitoring skip store when ajax mode is off for ajax requests', func
 /**
  * Create user.
  *
- * @return bool
+ * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model
  */
 function createUser()
 {
