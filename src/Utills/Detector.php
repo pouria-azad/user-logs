@@ -60,7 +60,7 @@ class Detector
             return 'CLI';
         }
 
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
 
         foreach ($this->browserName as $key => $browser) {
             if (str_contains($userAgent, $key)) {
@@ -80,7 +80,7 @@ class Detector
             return 'CLI';
         }
 
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
 
         foreach ($this->deviceName as $pattern => $name) {
             if (preg_match($pattern, $userAgent)) {
