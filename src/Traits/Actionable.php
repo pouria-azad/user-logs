@@ -39,11 +39,11 @@ trait Actionable
             });
         }
 
-//        if (config('user-monitoring.action_monitoring.on_restore', false)) {
-//            static::restored(function (mixed $model) {
-//                static::insertActionMonitoring($model, ActionType::ACTION_RESTORED);
-//            });
-//        }TODO: Release next version
+        if (config('user-monitoring.action_monitoring.on_replicate', false)) {
+            static::replicating(function (mixed $model) {
+                static::insertActionMonitoring($model, ActionType::ACTION_REPLICATE);
+            });
+        }
 
 //        if (config('user-monitoring.action_monitoring.on_replicate', false)) {
 //            static::restored(function (mixed $model) {
