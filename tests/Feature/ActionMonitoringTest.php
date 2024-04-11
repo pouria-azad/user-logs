@@ -165,3 +165,32 @@ test('store action monitoring when a model read without login user', function ()
     assertDatabaseCount(config('user-monitoring.action_monitoring.table'), 2);
     assertDatabaseHas(config('user-monitoring.action_monitoring.table'), ['page' => url('/')]);
 });
+
+test('store action monitoring when a model replicate with login user', function () {
+    config()->set('user-monitoring.action_monitoring.on_replicate', true);
+
+    $user = createUser();
+    auth()->login($user);
+
+    $milwadPro = Product::query()->create([
+        'title' => 'milwad',
+        'description' => 'WE ARE HELPING TO OPEN-SOURCE WORLD'
+    ]);
+
+    $binafyPro = $milwadPro->replicate()->fill([
+        'title' => 'binafy'
+    ])->save();
+
+    // Assertions
+    expect(ActionMonitoring::query()->value('table_name'))
+        ->toBe('products')
+        ->and(ActionMonitoring::query()->where('id', 2)->value('action_type'))
+        ->toBe(ActionType::ACTION_REPLICATE)
+        ->and($user->name)
+        ->toBe(ActionMonitoring::first()->user->name);
+
+    // DB Assertions
+    assertDatabaseCount('products', 2);
+    assertDatabaseCount(config('user-monitoring.action_monitoring.table'), 3);
+    assertDatabaseHas(config('user-monitoring.action_monitoring.table'), ['page' => url('/')]);
+});
