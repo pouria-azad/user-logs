@@ -1,3 +1,12 @@
+## v1.1.2 - 2024-04-11
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.0.0 by [@dependabot](https://github.com/dependabot) in https://github.com/binafy/laravel-user-monitoring/pull/34
+* [1.x] Add `replicate` event to ActionMonitoring by [@milwad-dev](https://github.com/milwad-dev) in https://github.com/binafy/laravel-user-monitoring/pull/36
+
+**Full Changelog**: https://github.com/binafy/laravel-user-monitoring/compare/v1.1.1...v1.1.2
+
 ## v1.1.1 - 2024-03-28
 
 ### What's Changed
