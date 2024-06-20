@@ -1,5 +1,5 @@
 {
-    "name": "binafy/laravel-user-monitoring",
+    "name": "pouria/user-logs",
     "description": "Monitor your user and all activity on your application",
     "keywords": [
         "binafy",
@@ -22,6 +22,12 @@
     "license": "MIT",
     "minimum-stability": "stable",
     "authors": [
+        {
+            "name": "pouria",
+            "email": "pooria.azad53@gmail.com",
+            "role": "developer",
+            "homepage": "https://github.com/pouria-azad"
+        },
         {
             "name": "milwad-dev",
             "email": "milwad.dev@gmail.com",
