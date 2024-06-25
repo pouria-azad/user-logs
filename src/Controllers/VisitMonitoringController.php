@@ -10,7 +10,9 @@ class VisitMonitoringController extends BaseController
     public function index()
     {
         $visits = VisitMonitoring::query()->latest()->paginate();
-
+        if (view()->exists('vendor.laravel-user-monitoring.visits-monitoring.index')) {
+            return view('vendor.laravel-user-monitoring.visits-monitoring.index', compact('visits'));
+        }
         return view('LaravelUserMonitoring::visits-monitoring.index', compact('visits'));
     }
 

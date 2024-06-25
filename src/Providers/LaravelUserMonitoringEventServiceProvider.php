@@ -8,31 +8,31 @@ use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 
 class LaravelUserMonitoringEventServiceProvider extends EventServiceProvider
 {
     public function boot(): void
     {
         $detector = new Detector();
-        $guard = config('user-monitoring.user.guard');
         $table = config('user-monitoring.authentication_monitoring.table');
 
         // Login Event
         if (config('user-monitoring.authentication_monitoring.on_login', false)) {
-            Event::listen(function (Login $event) use ($detector, $guard, $table) {
+            Event::listen(function (Login $event) use ($detector, $table) {
                 DB::table($table)
                     ->insert(
-                        $this->insertData($guard, $detector, 'login'),
+                        $this->insertData($event->guard, $detector, $event->user->getAuthIdentifier(), 'Login'),
                     );
             });
         }
 
         // Logout Event
         if (config('user-monitoring.authentication_monitoring.on_logout', false)) {
-            Event::listen(function (Logout $event) use ($detector, $guard, $table) {
+            Event::listen(function (Logout $event) use ($detector, $table) {
                 DB::table($table)
                     ->insert(
-                        $this->insertData($guard, $detector, 'logout'),
+                        $this->insertData($event->guard, $detector, $event->user->getAuthIdentifier(), 'Logout'),
                     );
             });
         }
@@ -41,10 +41,14 @@ class LaravelUserMonitoringEventServiceProvider extends EventServiceProvider
     /**
      * Get insert data.
      */
-    private function insertData(string $guard, Detector $detector, string $actionType): array
+    private function insertData(string $guard, Detector $detector, int|null $id, string $actionType): array
     {
+        foreach (array_keys(config('user-monitoring.guards')) as $mo) {
+            if ($guard === $mo) {
+                $guard = config('user-monitoring.guards')[$mo];
+            }
+        }
         return [
-            'user_id' => auth($guard)->id(),
             'action_type' => $actionType,
             'browser_name' => $detector->getBrowser(),
             'platform' => $detector->getDevice(),
@@ -53,6 +57,8 @@ class LaravelUserMonitoringEventServiceProvider extends EventServiceProvider
             'page' => request()->url(),
             'created_at' => now(),
             'updated_at' => now(),
+            'consumer_id'=>$id,
+            'consumer_type' =>$guard,
         ];
     }
 }

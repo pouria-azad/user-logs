@@ -14,28 +14,6 @@ return new class extends Migration
     {
         Schema::create(config('user-monitoring.authentication_monitoring.table'), function (Blueprint $table) {
             $table->id();
-
-            if (config('user-monitoring.authentication_monitoring.delete_user_record_when_user_delete', true)) {
-                if (config('user-monitoring.user.foreign_key_type') === 'ulid') {
-                    $table->foreignUlid(config('user-monitoring.user.foreign_key'))
-                        ->nullable()
-                        ->constrained(config('user-monitoring.user.table'))
-                        ->cascadeOnDelete();
-                } else if (config('user-monitoring.user.foreign_key_type') === 'uuid') {
-                    $table->foreignUuid(config('user-monitoring.user.foreign_key'))
-                        ->nullable()
-                        ->constrained(config('user-monitoring.user.table'))
-                        ->cascadeOnDelete();
-                } else {
-                    $table->foreignId(config('user-monitoring.user.foreign_key'))
-                        ->nullable()
-                        ->constrained(config('user-monitoring.user.table'))
-                        ->cascadeOnDelete();
-                }
-            } else {
-                UserUtils::userForeignKey($table);
-            }
-
             $table->string('action_type');
             $table->string('browser_name');
             $table->string('platform');
@@ -43,6 +21,9 @@ return new class extends Migration
             $table->string('ip');
             $table->text('page');
             $table->timestamps();
+            #One to One (Polymorphic)
+            $table->unsignedBigInteger('consumer_id')->nullable();
+            $table->string('consumer_type')->nullable();
         });
     }
 

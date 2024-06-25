@@ -3,6 +3,7 @@
 namespace Binafy\LaravelUserMonitoring\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class VisitMonitoring extends Model
 {
@@ -22,11 +23,8 @@ class VisitMonitoring extends Model
 
     # Relations
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function consumer(): MorphTo
     {
-        return $this->belongsTo(
-            config('user-monitoring.user.model'),
-            config('user-monitoring.user.foreign_key')
-        );
+        return $this->morphTo();
     }
 }

@@ -6,6 +6,8 @@ use Binafy\LaravelUserMonitoring\Utills\Detector;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function Binafy\LaravelUserMonitoring\Helpers\get_guard;
+
 
 class VisitMonitoringMiddleware
 {
@@ -28,7 +30,6 @@ class VisitMonitoringMiddleware
         if (empty($exceptPages) || !$this->checkIsExceptPages($request->path(), $exceptPages)) {
             // Store visit
             DB::table(config('user-monitoring.visit_monitoring.table'))->insert([
-                'user_id' => auth($guard)->id(),
                 'browser_name' => $detector->getBrowser(),
                 'platform' => $detector->getDevice(),
                 'device' => $detector->getDevice(),
@@ -36,6 +37,8 @@ class VisitMonitoringMiddleware
                 'page' => $request->url(),
                 'created_at' => now(),
                 'updated_at' => now(),
+                'consumer_id' => auth()->id(),
+                'consumer_type' => '',
             ]);
         }
 

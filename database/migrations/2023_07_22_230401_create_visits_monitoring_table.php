@@ -14,15 +14,15 @@ return new class extends Migration
     {
         Schema::create(config('user-monitoring.visit_monitoring.table'), function (Blueprint $table) {
             $table->id();
-
-            UserUtils::userForeignKey($table);
-
             $table->string('browser_name');
             $table->string('platform');
             $table->string('device');
             $table->string('ip');
             $table->text('page');
             $table->timestamps();
+            #One to One (Polymorphic)
+            $table->unsignedBigInteger('consumer_id')->nullable();
+            $table->string('consumer_type')->nullable();
         });
     }
 

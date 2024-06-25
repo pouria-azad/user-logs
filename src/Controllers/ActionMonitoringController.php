@@ -11,6 +11,9 @@ class ActionMonitoringController extends BaseController
     {
         $actions = ActionMonitoring::query()->latest()->paginate();
 
+        if (view()->exists('vendor.laravel-user-monitoring.actions-monitoring.index')) {
+            return view('vendor.laravel-user-monitoring.actions-monitoring.index', compact('actions'));
+        }
         return view('LaravelUserMonitoring::actions-monitoring.index', compact('actions'));
     }
 

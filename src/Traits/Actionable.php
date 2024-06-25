@@ -4,7 +4,27 @@ namespace Binafy\LaravelUserMonitoring\Traits;
 
 use Binafy\LaravelUserMonitoring\Utills\ActionType;
 use Binafy\LaravelUserMonitoring\Utills\Detector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
+
+
+function get_guard(): ?string
+{
+    if (Auth::guard('managers')->check()) {
+        return "managers";
+    }
+
+    if (Auth::guard('brokers')->check()) {
+        return "brokers";
+    }
+
+    if (Auth::guard('web')->check()) {
+        return "web";
+    }
+
+    return null;
+}
 
 trait Actionable
 {
@@ -67,7 +87,6 @@ trait Actionable
         $guard = config('user-monitoring.user.guard');
 
         DB::table(config('user-monitoring.action_monitoring.table'))->insert([
-            'user_id' => auth($guard)->id(),
             'action_type' => $actionType,
             'table_name' => $model->getTable(),
             'browser_name' => $detector->getBrowser(),
@@ -77,6 +96,9 @@ trait Actionable
             'page' => request()->url(),
             'created_at' => now(),
             'updated_at' => now(),
+            'new_column_id'=>$model->getKey(),
+            'consumer_id' => Auth::id(),
+            'consumer_type'=> get_guard()
         ]);
     }
 }
