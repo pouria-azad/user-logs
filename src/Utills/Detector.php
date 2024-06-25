@@ -2,6 +2,8 @@
 
 namespace Binafy\LaravelUserMonitoring\Utills;
 
+use Illuminate\Support\Facades\Auth;
+
 class Detector
 {
     /**
@@ -89,5 +91,18 @@ class Detector
         }
 
         return 'Unknown Device Name';
+    }
+
+    /**
+     * Get guard name.
+     */
+    public function get_guard(): ?string
+    {
+        foreach (array_keys(config('user-monitoring.guards')) as $guards_name) {
+            if (Auth::guard($guards_name)->check()) {
+                return config('user-monitoring.guards')[$guards_name];
+            }
+        }
+        return null;
     }
 }

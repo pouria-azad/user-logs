@@ -8,24 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
-
-function get_guard(): ?string
-{
-    if (Auth::guard('managers')->check()) {
-        return "managers";
-    }
-
-    if (Auth::guard('brokers')->check()) {
-        return "brokers";
-    }
-
-    if (Auth::guard('web')->check()) {
-        return "web";
-    }
-
-    return null;
-}
-
 trait Actionable
 {
     /**
@@ -43,8 +25,9 @@ trait Actionable
 
         if (config('user-monitoring.action_monitoring.on_update', false)) {
             static::updated(function (mixed $model) {
-                static::insertActionMonitoring($model, ActionType::ACTION_UPDATE);
-            });
+                if (Auth::id()) {
+                    static::insertActionMonitoring($model, ActionType::ACTION_UPDATE);
+                }});
         }
 
         if (config('user-monitoring.action_monitoring.on_destroy', false)) {
@@ -98,7 +81,7 @@ trait Actionable
             'updated_at' => now(),
             'new_column_id'=>$model->getKey(),
             'consumer_id' => Auth::id(),
-            'consumer_type'=> get_guard()
+            'consumer_type'=> $detector->get_guard()
         ]);
     }
 }

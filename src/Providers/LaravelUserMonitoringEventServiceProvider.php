@@ -8,7 +8,7 @@ use Illuminate\Auth\Events\Logout;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Log;
+
 
 class LaravelUserMonitoringEventServiceProvider extends EventServiceProvider
 {

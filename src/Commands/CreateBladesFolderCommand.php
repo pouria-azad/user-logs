@@ -12,7 +12,7 @@ class CreateBladesFolderCommand extends Command
 
     public function handle()
     {
-        $folders = config('user-monitoring.guards');
+        $folders = array_keys(config('user-monitoring.guards'));
 
         foreach ($folders as $folder) {
             $path = resource_path('views\\vendor\\laravel-user-monitoring\\authentications-monitoring\\' . $folder);
@@ -26,7 +26,7 @@ class CreateBladesFolderCommand extends Command
             $currentPath = __DIR__;
             $twoLevelsUp = dirname($currentPath, 2);
             if (!File::exists($path)){
-                File::copy( $twoLevelsUp.'\\resources\\views\\vendor\\laravel-user-monitoring\\authentications-monitoring\\index.blade.php' , $path);
+                File::copy( $twoLevelsUp.'\\resources\\views\\authentications-monitoring\\index.blade.php' , $path);
                 $this->info("Created file: $path. 'index.blade.php'");
             } else {
                 $this->info("File already exists:  $path. 'index.blade.php'");

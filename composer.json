@@ -41,12 +41,6 @@
         }
     ],
     "autoload": {
-        "files" : [
-            "src/Helpers/helpers.php"
-        ],
-        "classmap": [
-        "src/Helpers"
-    ],
         "psr-4": {
             "Binafy\\LaravelUserMonitoring\\": "src/"
         }

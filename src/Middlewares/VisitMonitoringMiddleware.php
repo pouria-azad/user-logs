@@ -5,8 +5,9 @@ namespace Binafy\LaravelUserMonitoring\Middlewares;
 use Binafy\LaravelUserMonitoring\Utills\Detector;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use function Binafy\LaravelUserMonitoring\Helpers\get_guard;
+
 
 
 class VisitMonitoringMiddleware
@@ -37,8 +38,8 @@ class VisitMonitoringMiddleware
                 'page' => $request->url(),
                 'created_at' => now(),
                 'updated_at' => now(),
-                'consumer_id' => auth()->id(),
-                'consumer_type' => '',
+                'consumer_id' => Auth::id(),
+                'consumer_type' => $detector->get_guard()
             ]);
         }
 

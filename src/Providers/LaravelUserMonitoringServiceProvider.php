@@ -77,7 +77,7 @@ class LaravelUserMonitoringServiceProvider extends ServiceProvider
     private function publishViews()
     {
         $this->publishes([
-            __DIR__ . '/../../resources/views' => resource_path('views/laravel-user-monitoring'),
+            __DIR__ . '/../../resources/views' => resource_path('views/vendor/laravel-user-monitoring'),
         ], 'laravel-user-monitoring-views');
     }
 
