@@ -29,12 +29,12 @@ class AuthenticationMonitoringController extends BaseController
         return view('LaravelUserMonitoring::authentications-monitoring.index', compact('authentications'));
     }
 
-    public function destroy(int $id)
+    public function destroy(Request $request, int $id)
     {
         DB::table(config('user-monitoring.authentication_monitoring.table'))
             ->where('id', $id)
             ->delete();
 
-        return to_route('user-monitoring' . '.' . array_keys(config('user-monitoring.guards'))[0] . '.' . 'authentications-monitoring');
+        return to_route('user-monitoring' . '.' . $request->type . '.' . 'authentications-monitoring');
     }
 }

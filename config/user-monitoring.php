@@ -13,6 +13,7 @@ return [
         'guards'=>[
             'managers'=> 'App\Models\Manager',
             'brokers'=> 'App\Models\Broker',
+            'web'=> 'App\Models\User',
         ],
 
     /*
