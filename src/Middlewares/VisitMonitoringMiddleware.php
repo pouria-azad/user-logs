@@ -39,7 +39,7 @@ class VisitMonitoringMiddleware
                 'created_at' => now(),
                 'updated_at' => now(),
                 'consumer_id' => Auth::id(),
-                'consumer_type' => $detector->get_guard()
+                'consumer_type' => $detector->get_guard() !== 'App\Models\Manager' ? $detector->get_guard() : null
             ]);
         }
 

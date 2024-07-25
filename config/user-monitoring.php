@@ -11,9 +11,9 @@ return [
     ],
 
         'guards'=>[
-            'managers'=> 'App\Models\Manager',
-            'brokers'=> 'App\Models\Broker',
             'web'=> 'App\Models\User',
+            'brokers'=> 'App\Models\Broker',
+            'managers'=> 'App\Models\Manager',
         ],
 
     /*
