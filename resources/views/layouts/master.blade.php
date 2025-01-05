@@ -40,13 +40,15 @@
                                 <p>Action Monitoring</p>
                             </div>
                         </a>
+                        @foreach (array_keys(config('user-monitoring.guards')) as $guards_name)
                         <a class="rounded-full focus:outline-none focus:ring-2 focus:bg-indigo-50 focus:ring-indigo-800 ml-4 sm:ml-8"
-                           href="{{ route('user-monitoring'. '.' . array_keys(config('user-monitoring.guards'))[0]. '.'  .'authentications-monitoring') }}">
+                           href="{{ route('user-monitoring'. '.' . $guards_name. '.'  .'authentications-monitoring') }}">
                             <div class="py-2 px-8 text-indigo-700 rounded-full hover:text-indigo-700 hover:bg-indigo-100
                                 {{ request()->routeIs('user-monitoring.authentications-monitoring') ? 'bg-indigo-100' : '' }}">
-                                <p>Authentication Monitoring</p>
+                                <p>Authentication Monitoring / {{ $guards_name }}</p>
                             </div>
                         </a>
+                        @endforeach
                     </div>
                     <div>
                         <a href="https://github.com/binafy/laravel-user-monitoring"
